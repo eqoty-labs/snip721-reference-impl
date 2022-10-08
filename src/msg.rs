@@ -11,7 +11,7 @@ use crate::royalties::{DisplayRoyaltyInfo, RoyaltyInfo};
 use crate::token::{Extension, Metadata};
 
 /// Instantiation message
-#[derive(Serialize, Deserialize, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 pub struct InstantiateMsg {
     /// name of token contract
     pub name: String,
@@ -36,7 +36,7 @@ pub struct InstantiateMsg {
 /// This type represents optional configuration values.
 /// All values are optional and have defaults which are more private by default,
 /// but can be overridden if necessary
-#[derive(Serialize, Deserialize, JsonSchema, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 pub struct InstantiateConfig {
     /// indicates whether the token IDs and the number of tokens controlled by the contract are
     /// public.  If the token supply is private, only minters can view the token IDs and
@@ -87,7 +87,7 @@ impl Default for InstantiateConfig {
 }
 
 /// info needed to perform a callback message after instantiation
-#[derive(Serialize, Deserialize, JsonSchema, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct PostInstantiateCallback {
     /// the callback message to execute
     pub msg: Binary,
@@ -99,7 +99,7 @@ pub struct PostInstantiateCallback {
     pub send: Vec<Coin>,
 }
 
-#[derive(Serialize, Deserialize, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ExecuteMsg {
     /// mint new token
@@ -407,7 +407,7 @@ pub enum ExecuteMsg {
 }
 
 /// permission access level
-#[derive(Serialize, Deserialize, JsonSchema, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum AccessLevel {
     /// approve permission only for the specified token
@@ -421,7 +421,7 @@ pub enum AccessLevel {
 }
 
 /// token mint info used when doing a BatchMint
-#[derive(Serialize, Deserialize, JsonSchema, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 pub struct Mint {
     /// optional token id, if omitted, use current token index
     pub token_id: Option<String>,
@@ -443,7 +443,7 @@ pub struct Mint {
 }
 
 /// token burn info used when doing a BatchBurnNft
-#[derive(Serialize, Deserialize, JsonSchema, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 pub struct Burn {
     /// tokens being burnt
     pub token_ids: Vec<String>,
@@ -452,7 +452,7 @@ pub struct Burn {
 }
 
 /// token transfer info used when doing a BatchTransferNft
-#[derive(Serialize, Deserialize, JsonSchema, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 pub struct Transfer {
     /// recipient of the transferred tokens
     pub recipient: String,
@@ -463,7 +463,7 @@ pub struct Transfer {
 }
 
 /// send token info used when doing a BatchSendNft
-#[derive(Serialize, Deserialize, JsonSchema, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 pub struct Send {
     /// recipient of the sent tokens
     pub contract: String,

@@ -4,8 +4,8 @@ use std::collections::HashSet;
 
 use base64::{engine::general_purpose, Engine as _};
 use cosmwasm_std::{
-    attr, entry_point, to_binary, Addr, Api, Binary, BlockInfo, CanonicalAddr, CosmosMsg, Deps,
-    DepsMut, Env, MessageInfo, Response, StdError, StdResult, Storage, WasmMsg,
+    Addr, Api, attr, Binary, BlockInfo, CanonicalAddr, CosmosMsg, Deps, DepsMut, Env,
+    MessageInfo, Response, StdError, StdResult, Storage, Timestamp, to_binary, WasmMsg,
 };
 use cosmwasm_storage::{PrefixedStorage, ReadonlyPrefixedStorage};
 use primitive_types::U256;
@@ -53,9 +53,8 @@ pub const ID_BLOCK_SIZE: u32 = 64;
 /// * `env` - Env of contract's environment
 /// * `info` - contract execution info for authorization - identity of the call, and payment.
 /// * `msg` - InitMsg passed in with the instantiation message
-#[entry_point]
 pub fn instantiate(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     _env: Env,
     info: MessageInfo,
     msg: InstantiateMsg,
@@ -134,8 +133,14 @@ pub fn instantiate(
 /// * `env` - Env of contract's environment
 /// * `info` - contract execution info for authorization - identity of the call, and payment.
 /// * `msg` - HandleMsg passed in with the execute message
-#[entry_point]
-pub fn execute(deps: DepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) -> StdResult<Response> {
+pub fn execute(
+    deps: DepsMut,
+    env: Env,
+    info: MessageInfo,
+    msg: ExecuteMsg,
+) -> StdResult<Response> {
+    // TODO remove this after BlockInfo becomes available to queries
+    save(deps.storage, BLOCK_KEY, &env.block)?;
     let mut config: Config = load(deps.storage, CONFIG_KEY)?;
 
     let response = match msg {
@@ -1699,8 +1704,7 @@ fn revoke_permit(
 /// * `deps` - reference to Extern containing all the contract's external dependencies
 /// * `env` - Env of contract's environment
 /// * `msg` - QueryMsg passed in with the query call
-#[entry_point]
-pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
+pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
     let response = match msg {
         QueryMsg::ContractInfo {} => query_contract_info(deps.storage),
         QueryMsg::ContractCreator {} => query_contract_creator(deps),

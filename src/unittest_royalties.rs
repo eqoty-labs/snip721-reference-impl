@@ -37,7 +37,7 @@ mod tests {
             post_init_callback: None,
         };
 
-        (instantiate(deps.as_mut(), env, info, init_msg), deps)
+        (instantiate(&mut deps.as_mut(), env, info, init_msg), deps)
     }
 
     fn init_helper_royalties_with_config(
@@ -87,7 +87,7 @@ mod tests {
             post_init_callback: None,
         };
 
-        (instantiate(deps.as_mut(), env, info, init_msg), deps)
+        (instantiate(&mut deps.as_mut(), env, info, init_msg), deps)
     }
 
     fn extract_error_msg<T: Any>(error: StdResult<T>) -> String {
@@ -287,7 +287,7 @@ mod tests {
             post_init_callback,
         };
 
-        let init_response = instantiate(deps.as_mut(), env, info, init_msg).unwrap();
+        let init_response = instantiate(&mut deps.as_mut(), env, info, init_msg).unwrap();
         assert_eq!(
             init_response.messages,
             vec![SubMsg::new(WasmMsg::Execute {

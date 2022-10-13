@@ -142,7 +142,8 @@ pub fn execute(
     // TODO remove this after BlockInfo becomes available to queries
     save(deps.storage, BLOCK_KEY, &env.block)?;
     let mut config: Config = load(deps.storage, CONFIG_KEY)?;
-
+    let mut deps = deps;
+    let mut deps = &mut deps;
     let response = match msg {
         ExecuteMsg::MintNft {
             token_id,
@@ -490,7 +491,7 @@ pub fn execute(
 /// * `memo` - optional memo for the mint tx
 #[allow(clippy::too_many_arguments)]
 pub fn mint(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     env: &Env,
     sender: &Addr,
     config: &mut Config,
@@ -544,7 +545,7 @@ pub fn mint(
 /// * `priority` - u8 representation of highest ContractStatus level this action is permitted
 /// * `mints` - the list of mints to perform
 pub fn batch_mint(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     env: &Env,
     sender: &Addr,
     config: &mut Config,
@@ -587,7 +588,7 @@ pub fn batch_mint(
 /// * `memo` - optional memo for the mint txs
 #[allow(clippy::too_many_arguments)]
 pub fn mint_clones(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     env: &Env,
     sender: &Addr,
     config: &mut Config,
@@ -680,7 +681,7 @@ pub fn mint_clones(
 /// * `public_metadata` - the optional new public metadata viewable by everyone
 /// * `private_metadata` - the optional new private metadata viewable by everyone
 pub fn set_metadata(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     sender: &Addr,
     config: &Config,
     priority: u8,
@@ -728,7 +729,7 @@ pub fn set_metadata(
 /// * `token_id` - optional token id String slice of token whose royalty info should be updated
 /// * `royalty_info` - a optional reference to the new RoyaltyInfo
 pub fn set_royalty_info(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     sender: &Addr,
     config: &Config,
     priority: u8,
@@ -807,7 +808,7 @@ pub fn set_royalty_info(
 /// * `priority` - u8 representation of highest status level this action is permitted at
 /// * `token_id` - token id String slice of token whose metadata should be updated
 pub fn reveal(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     sender: &Addr,
     config: &Config,
     priority: u8,
@@ -870,7 +871,7 @@ pub fn reveal(
 /// * `is_approve` - true if this is an Approve call
 #[allow(clippy::too_many_arguments)]
 pub fn approve_revoke(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     env: &Env,
     sender: &Addr,
     config: &Config,
@@ -964,7 +965,7 @@ pub fn approve_revoke(
 /// * `config` - a reference to the Config
 /// * `priority` - u8 representation of highest status level this action is permitted at
 pub fn make_owner_private(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     sender: &Addr,
     config: &Config,
     priority: u8,
@@ -1000,7 +1001,7 @@ pub fn make_owner_private(
 /// * `expires` - optional Expiration for this approval
 #[allow(clippy::too_many_arguments)]
 pub fn set_global_approval(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     env: &Env,
     sender: &Addr,
     config: &Config,
@@ -1089,7 +1090,7 @@ pub fn set_global_approval(
 /// * `response_type` - which response to return for SetWhitelistedApproval, ApproveAll, or RevokeAll
 #[allow(clippy::too_many_arguments)]
 pub fn set_whitelisted_approval(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     env: &Env,
     sender: &Addr,
     config: &Config,
@@ -1180,7 +1181,7 @@ pub fn set_whitelisted_approval(
 /// * `priority` - u8 representation of highest ContractStatus level this action is permitted
 /// * `burns` - the list of burns to perform
 pub fn batch_burn_nft(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     env: &Env,
     sender: &Addr,
     config: &mut Config,
@@ -1209,7 +1210,7 @@ pub fn batch_burn_nft(
 /// * `token_id` - token id String of token to be burnt
 /// * `memo` - optional memo for the burn tx
 fn burn_nft(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     env: &Env,
     sender: &Addr,
     config: &mut Config,
@@ -1241,7 +1242,7 @@ fn burn_nft(
 /// * `priority` - u8 representation of highest ContractStatus level this action is permitted
 /// * `transfers` - list of transfers to perform
 pub fn batch_transfer_nft(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     env: &Env,
     sender: &Addr,
     config: &mut Config,
@@ -1273,7 +1274,7 @@ pub fn batch_transfer_nft(
 /// * `memo` - optional memo for the mint tx
 #[allow(clippy::too_many_arguments)]
 pub fn transfer_nft(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     env: &Env,
     sender: &Addr,
     config: &mut Config,
@@ -1308,7 +1309,7 @@ pub fn transfer_nft(
 /// * `priority` - u8 representation of highest ContractStatus level this action is permitted
 /// * `sends` - list of SendNfts to perform
 fn batch_send_nft(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     env: &Env,
     sender: &Addr,
     config: &mut Config,
@@ -1344,7 +1345,7 @@ fn batch_send_nft(
 /// * `memo` - optional memo for the mint tx
 #[allow(clippy::too_many_arguments)]
 fn send_nft(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     env: &Env,
     sender: &Addr,
     config: &mut Config,
@@ -1384,7 +1385,7 @@ fn send_nft(
 /// * `code_hash` - code hash String of the registering contract
 /// * `impl_batch` - optionally true if the contract also implements BatchReceiveNft
 pub fn register_receive_nft(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     sender: &Addr,
     config: &Config,
     priority: u8,
@@ -1418,7 +1419,7 @@ pub fn register_receive_nft(
 /// * `priority` - u8 representation of highest ContractStatus level this action is permitted
 /// * `entropy` - string slice of the input String to be used as entropy in randomization
 pub fn create_key(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     env: &Env,
     info: &MessageInfo,
     config: &Config,
@@ -1449,7 +1450,7 @@ pub fn create_key(
 /// * `priority` - u8 representation of highest ContractStatus level this action is permitted
 /// * `key` - String to be used as the viewing key
 pub fn set_key(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     sender: &Addr,
     config: &Config,
     priority: u8,
@@ -1472,7 +1473,7 @@ pub fn set_key(
 /// * `priority` - u8 representation of highest ContractStatus level this action is permitted
 /// * `new_minters` - list of minter addresses to add
 pub fn add_minters(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     sender: &Addr,
     config: &Config,
     priority: u8,
@@ -1515,7 +1516,7 @@ pub fn add_minters(
 /// * `priority` - u8 representation of highest ContractStatus level this action is permitted
 /// * `no_minters` - list of minter addresses to remove
 pub fn remove_minters(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     sender: &Addr,
     config: &Config,
     priority: u8,
@@ -1567,7 +1568,7 @@ pub fn remove_minters(
 /// * `priority` - u8 representation of highest ContractStatus level this action is permitted
 /// * `human_minters` - exact list of minter addresses
 pub fn set_minters(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     sender: &Addr,
     config: &Config,
     priority: u8,
@@ -1615,7 +1616,7 @@ pub fn set_minters(
 /// * `priority` - u8 representation of highest ContractStatus level this action is permitted
 /// * `address` - new admin address
 pub fn change_admin(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     sender: &Addr,
     config: &mut Config,
     priority: u8,
@@ -1649,7 +1650,7 @@ pub fn change_admin(
 /// * `config` - a mutable reference to the Config
 /// * `level` - new ContractStatus
 pub fn set_contract_status(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     sender: &Addr,
     config: &mut Config,
     level: ContractStatus,
@@ -4337,7 +4338,7 @@ pub struct SendFrom {
 /// * `transfers` - optional list of transfers to perform
 /// * `sends` - optional list of sends to perform
 fn send_list(
-    mut deps: DepsMut,
+    mut deps: &mut DepsMut,
     env: &Env,
     msg_sender: &Addr,
     config: &mut Config,
@@ -4428,7 +4429,7 @@ fn send_list(
 /// * `sender` - a reference to the message sender address
 /// * `burns` - list of burns to perform
 fn burn_list(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     block: &BlockInfo,
     config: &mut Config,
     sender: &CanonicalAddr,
@@ -4529,7 +4530,7 @@ fn burn_list(
 /// * `sender_raw` - a reference to the message sender address
 /// * `mints` - list of mints to perform
 fn mint_list(
-    deps: DepsMut,
+    deps: &mut DepsMut,
     env: &Env,
     config: &mut Config,
     sender_raw: &CanonicalAddr,

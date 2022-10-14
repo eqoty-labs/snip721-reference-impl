@@ -11,7 +11,7 @@ use crate::royalties::{DisplayRoyaltyInfo, RoyaltyInfo};
 use crate::token::{Extension, Metadata};
 
 /// Instantiation message
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct InstantiateMsg {
     /// name of token contract
     pub name: String,

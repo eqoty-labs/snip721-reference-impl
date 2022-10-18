@@ -143,7 +143,7 @@ pub fn execute(
     save(deps.storage, BLOCK_KEY, &env.block)?;
     let mut config: Config = load(deps.storage, CONFIG_KEY)?;
     let mut deps = deps;
-    let mut deps = &mut deps;
+    let mut _deps = &mut deps;
     let response = match msg {
         ExecuteMsg::MintNft {
             token_id,
@@ -156,7 +156,7 @@ pub fn execute(
             memo,
             ..
         } => mint(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &mut config,
@@ -171,7 +171,7 @@ pub fn execute(
             memo,
         ),
         ExecuteMsg::BatchMintNft { mints, .. } => batch_mint(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &mut config,
@@ -188,7 +188,7 @@ pub fn execute(
             memo,
             ..
         } => mint_clones(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &mut config,
@@ -207,7 +207,7 @@ pub fn execute(
             private_metadata,
             ..
         } => set_metadata(
-            deps,
+            _deps,
             &info.sender,
             &config,
             ContractStatus::StopTransactions.to_u8(),
@@ -220,7 +220,7 @@ pub fn execute(
             royalty_info,
             ..
         } => set_royalty_info(
-            deps,
+            _deps,
             &info.sender,
             &config,
             ContractStatus::StopTransactions.to_u8(),
@@ -228,14 +228,14 @@ pub fn execute(
             royalty_info.as_ref(),
         ),
         ExecuteMsg::Reveal { token_id, .. } => reveal(
-            deps,
+            _deps,
             &info.sender,
             &config,
             ContractStatus::StopTransactions.to_u8(),
             &token_id,
         ),
         ExecuteMsg::MakeOwnershipPrivate { .. } => make_owner_private(
-            deps,
+            _deps,
             &info.sender,
             &config,
             ContractStatus::StopTransactions.to_u8(),
@@ -247,7 +247,7 @@ pub fn execute(
             expires,
             ..
         } => set_global_approval(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &config,
@@ -266,7 +266,7 @@ pub fn execute(
             expires,
             ..
         } => set_whitelisted_approval(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &config,
@@ -285,7 +285,7 @@ pub fn execute(
             expires,
             ..
         } => approve_revoke(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &config,
@@ -298,7 +298,7 @@ pub fn execute(
         ExecuteMsg::Revoke {
             spender, token_id, ..
         } => approve_revoke(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &config,
@@ -311,7 +311,7 @@ pub fn execute(
         ExecuteMsg::ApproveAll {
             operator, expires, ..
         } => set_whitelisted_approval(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &config,
@@ -325,7 +325,7 @@ pub fn execute(
             SetAppResp::ApproveAll,
         ),
         ExecuteMsg::RevokeAll { operator, .. } => set_whitelisted_approval(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &config,
@@ -344,7 +344,7 @@ pub fn execute(
             memo,
             ..
         } => transfer_nft(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &mut config,
@@ -354,7 +354,7 @@ pub fn execute(
             memo,
         ),
         ExecuteMsg::BatchTransferNft { transfers, .. } => batch_transfer_nft(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &mut config,
@@ -369,7 +369,7 @@ pub fn execute(
             memo,
             ..
         } => send_nft(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &mut config,
@@ -381,7 +381,7 @@ pub fn execute(
             memo,
         ),
         ExecuteMsg::BatchSendNft { sends, .. } => batch_send_nft(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &mut config,
@@ -393,7 +393,7 @@ pub fn execute(
             also_implements_batch_receive_nft,
             ..
         } => register_receive_nft(
-            deps,
+            _deps,
             &info.sender,
             &config,
             ContractStatus::StopTransactions.to_u8(),
@@ -401,7 +401,7 @@ pub fn execute(
             also_implements_batch_receive_nft,
         ),
         ExecuteMsg::BurnNft { token_id, memo, .. } => burn_nft(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &mut config,
@@ -410,7 +410,7 @@ pub fn execute(
             memo,
         ),
         ExecuteMsg::BatchBurnNft { burns, .. } => batch_burn_nft(
-            deps,
+            _deps,
             &env,
             &info.sender,
             &mut config,
@@ -418,7 +418,7 @@ pub fn execute(
             burns,
         ),
         ExecuteMsg::CreateViewingKey { entropy, .. } => create_key(
-            deps,
+            _deps,
             &env,
             &info,
             &config,
@@ -426,45 +426,45 @@ pub fn execute(
             &entropy,
         ),
         ExecuteMsg::SetViewingKey { key, .. } => set_key(
-            deps,
+            _deps,
             &info.sender,
             &config,
             ContractStatus::StopTransactions.to_u8(),
             key,
         ),
         ExecuteMsg::AddMinters { minters, .. } => add_minters(
-            deps,
+            _deps,
             &info.sender,
             &config,
             ContractStatus::StopTransactions.to_u8(),
             &minters,
         ),
         ExecuteMsg::RemoveMinters { minters, .. } => remove_minters(
-            deps,
+            _deps,
             &info.sender,
             &config,
             ContractStatus::StopTransactions.to_u8(),
             &minters,
         ),
         ExecuteMsg::SetMinters { minters, .. } => set_minters(
-            deps,
+            _deps,
             &info.sender,
             &config,
             ContractStatus::StopTransactions.to_u8(),
             &minters,
         ),
         ExecuteMsg::ChangeAdmin { address, .. } => change_admin(
-            deps,
+            _deps,
             &info.sender,
             &mut config,
             ContractStatus::StopTransactions.to_u8(),
             &address,
         ),
         ExecuteMsg::SetContractStatus { level, .. } => {
-            set_contract_status(deps, &info.sender, &mut config, level)
+            set_contract_status(_deps, &info.sender, &mut config, level)
         }
         ExecuteMsg::RevokePermit { permit_name, .. } => {
-            revoke_permit(deps.storage, &info.sender, &permit_name)
+            revoke_permit(_deps.storage, &info.sender, &permit_name)
         }
     };
     pad_handle_result(response, BLOCK_SIZE)

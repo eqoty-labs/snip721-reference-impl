@@ -477,7 +477,7 @@ pub struct Send {
     pub memo: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, JsonSchema, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ExecuteAnswer {
     /// MintNft will also display the minted token's ID in the log attributes under the

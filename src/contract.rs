@@ -3515,7 +3515,7 @@ fn check_perm_core(
 /// * `perm_type` - PermissionType we are checking
 /// * `oper_for` - a mutable reference to a list of owners that gave the sender "all" permission
 /// * `config` - a reference to the Config
-fn get_token_if_permitted(
+pub fn get_token_if_permitted(
     deps: Deps,
     block: &BlockInfo,
     token_id: &str,
@@ -3560,7 +3560,7 @@ fn get_token_if_permitted(
 /// * `token_id` - token id string slice
 /// * `custom_err` - optional custom error message to use if don't want to reveal that a token
 ///                  does not exist
-fn get_token(
+pub fn get_token(
     storage: &dyn Storage,
     token_id: &str,
     custom_err: Option<&str>,

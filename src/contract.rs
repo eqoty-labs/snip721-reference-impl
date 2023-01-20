@@ -5,7 +5,7 @@ use std::collections::HashSet;
 use base64::{engine::general_purpose, Engine as _};
 use cosmwasm_std::{
     Addr, Api, attr, Binary, BlockInfo, CanonicalAddr, CosmosMsg, Deps, DepsMut, Env,
-    MessageInfo, Response, StdError, StdResult, Storage, Timestamp, to_binary, WasmMsg,
+    MessageInfo, Response, StdError, StdResult, Storage, to_binary, WasmMsg,
 };
 use cosmwasm_storage::{PrefixedStorage, ReadonlyPrefixedStorage};
 use primitive_types::U256;
@@ -139,8 +139,6 @@ pub fn execute(
     info: MessageInfo,
     msg: ExecuteMsg,
 ) -> StdResult<Response> {
-    // TODO remove this after BlockInfo becomes available to queries
-    save(deps.storage, BLOCK_KEY, &env.block)?;
     let mut config: Config = load(deps.storage, CONFIG_KEY)?;
     let mut deps = deps;
     let mut _deps = &mut deps;
@@ -1705,7 +1703,7 @@ fn revoke_permit(
 /// * `deps` - reference to Extern containing all the contract's external dependencies
 /// * `env` - Env of contract's environment
 /// * `msg` - QueryMsg passed in with the query call
-pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
+pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
     let response = match msg {
         QueryMsg::ContractInfo {} => query_contract_info(deps.storage),
         QueryMsg::ContractCreator {} => query_contract_creator(deps),

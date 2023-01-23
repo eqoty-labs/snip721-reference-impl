@@ -3252,7 +3252,7 @@ pub struct PermissionTypeInfo {
 /// * `perm_list` - a mutable reference to the list of Permission
 /// * `include_expired` - true if the Approval list should include expired Approvals
 /// * `perm_type_info` - a reference to PermissionTypeInfo
-fn gen_snip721_approvals(
+pub fn gen_snip721_approvals(
     api: &dyn Api,
     block: &BlockInfo,
     perm_list: &mut Vec<Permission>,

@@ -55,7 +55,7 @@ pub const ID_BLOCK_SIZE: u32 = 64;
 /// * `msg` - InitMsg passed in with the instantiation message
 pub fn instantiate(
     deps: &mut DepsMut,
-    _env: Env,
+    _env: &Env,
     info: MessageInfo,
     msg: InstantiateMsg,
 ) -> StdResult<Response> {

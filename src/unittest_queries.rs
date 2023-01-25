@@ -36,7 +36,7 @@ mod tests {
             post_init_callback: None,
         };
 
-        (instantiate(&mut deps.as_mut(), env, info, init_msg), deps)
+        (instantiate(&mut deps.as_mut(), &env, info, init_msg), deps)
     }
 
     fn init_helper_with_config(
@@ -85,7 +85,7 @@ mod tests {
             post_init_callback: None,
         };
 
-        (instantiate(&mut deps.as_mut(), env, info, init_msg), deps)
+        (instantiate(&mut deps.as_mut(), &env, info, init_msg), deps)
     }
 
     fn extract_error_msg<T: Any>(error: StdResult<T>) -> String {

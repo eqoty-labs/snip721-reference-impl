@@ -4527,7 +4527,7 @@ fn burn_list(
 /// * `config` - a mutable reference to the Config
 /// * `sender_raw` - a reference to the message sender address
 /// * `mints` - list of mints to perform
-fn mint_list(
+pub fn mint_list(
     deps: &mut DepsMut,
     env: &Env,
     config: &mut Config,

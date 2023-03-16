@@ -26,6 +26,7 @@ mod tests {
             royalty_info: None,
             config: None,
             post_init_callback: None,
+            post_init_data: None,
         };
 
         (instantiate(&mut deps.as_mut(), &env, info, init_msg), deps)

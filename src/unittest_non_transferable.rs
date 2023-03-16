@@ -40,6 +40,7 @@ mod tests {
             royalty_info: None,
             config: None,
             post_init_callback: None,
+            post_init_data: None,
         };
 
         (instantiate(&mut deps.as_mut(), &env, info, init_msg), deps)
@@ -89,6 +90,7 @@ mod tests {
             royalty_info: None,
             config: Some(init_config),
             post_init_callback: None,
+            post_init_data: None,
         };
 
         (instantiate(&mut deps.as_mut(), &env, info, init_msg), deps)
@@ -140,6 +142,7 @@ mod tests {
             royalty_info,
             config: Some(init_config),
             post_init_callback: None,
+            post_init_data: None,
         };
 
         (instantiate(&mut deps.as_mut(), &env, info, init_msg), deps)
@@ -220,6 +223,7 @@ mod tests {
             royalty_info: None,
             config: None,
             post_init_callback,
+            post_init_data: None,
         };
 
         let init_response = instantiate(&mut deps.as_mut(), &env, info, init_msg).unwrap();

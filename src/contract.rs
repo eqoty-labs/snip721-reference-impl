@@ -122,7 +122,12 @@ pub fn instantiate(
     } else {
         Vec::new()
     };
-    Ok(Response::new().add_messages(messages))
+    let res = Response::new().add_messages(messages);
+    if let Some(some_post_init_data) = msg.post_init_data {
+        Ok(res.set_data(some_post_init_data))
+    } else {
+        Ok(res)
+    }
 }
 
 ///////////////////////////////////// Handle //////////////////////////////////////

@@ -31,6 +31,9 @@ pub struct InstantiateMsg {
     /// contract that instantiated it, but it could be used to execute any
     /// contract
     pub post_init_callback: Option<PostInstantiateCallback>,
+    /// optional data to set in result
+    /// a hack to workaround https://github.com/scrtlabs/SecretNetwork/issues/1323
+    pub post_init_data: Option<Binary>,
 }
 
 /// This type represents optional configuration values.

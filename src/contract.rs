@@ -4,8 +4,8 @@ use std::collections::HashSet;
 
 use base64::{engine::general_purpose, Engine as _};
 use cosmwasm_std::{
-    Addr, Api, attr, Binary, BlockInfo, CanonicalAddr, CosmosMsg, Deps, DepsMut, Env,
-    MessageInfo, Response, StdError, StdResult, Storage, to_binary, WasmMsg,
+    attr, to_binary, Addr, Api, Binary, BlockInfo, CanonicalAddr, CosmosMsg, Deps, DepsMut, Env,
+    MessageInfo, Response, StdError, StdResult, Storage, WasmMsg,
 };
 use cosmwasm_storage::{PrefixedStorage, ReadonlyPrefixedStorage};
 use primitive_types::U256;
@@ -121,7 +121,12 @@ pub fn instantiate(
     } else {
         Vec::new()
     };
-    Ok(Response::new().add_messages(messages))
+    let res = Response::new().add_messages(messages);
+    if let Some(some_post_init_data) = msg.post_init_data {
+        Ok(res.set_data(some_post_init_data))
+    } else {
+        Ok(res)
+    }
 }
 
 ///////////////////////////////////// Handle //////////////////////////////////////
@@ -133,12 +138,7 @@ pub fn instantiate(
 /// * `env` - Env of contract's environment
 /// * `info` - contract execution info for authorization - identity of the call, and payment.
 /// * `msg` - HandleMsg passed in with the execute message
-pub fn execute(
-    deps: DepsMut,
-    env: Env,
-    info: MessageInfo,
-    msg: ExecuteMsg,
-) -> StdResult<Response> {
+pub fn execute(deps: DepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) -> StdResult<Response> {
     let mut config: Config = load(deps.storage, CONFIG_KEY)?;
     let mut deps = deps;
     let mut _deps = &mut deps;

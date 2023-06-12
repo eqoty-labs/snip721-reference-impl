@@ -43,7 +43,6 @@ mod tests {
             name: "sec721".to_string(),
             symbol: "S721".to_string(),
             admin: Some("admin".to_string()),
-            entropy: "We're going to need a bigger boat".to_string(),
             royalty_info: None,
             config: None,
             post_init_callback: None,
@@ -92,7 +91,6 @@ mod tests {
             name: "sec721".to_string(),
             symbol: "S721".to_string(),
             admin: Some("admin".to_string()),
-            entropy: "We're going to need a bigger boat".to_string(),
             royalty_info: None,
             config: Some(init_config),
             post_init_callback: None,
@@ -179,7 +177,6 @@ mod tests {
             name: "sec721".to_string(),
             symbol: "S721".to_string(),
             admin: Some("admin".to_string()),
-            entropy: "We're going to need a bigger boat".to_string(),
             royalty_info: None,
             config: None,
             post_init_callback,
@@ -10216,10 +10213,7 @@ mod tests {
             mock_info("admin", &[]),
             execute_msg,
         );
-        let execute_msg = ExecuteMsg::CreateViewingKey {
-            entropy: "blah".to_string(),
-            padding: None,
-        };
+        let execute_msg = ExecuteMsg::CreateViewingKey { padding: None };
         let handle_result = execute(
             deps.as_mut(),
             mock_env(),
@@ -10241,10 +10235,7 @@ mod tests {
             execute_msg,
         );
 
-        let execute_msg = ExecuteMsg::CreateViewingKey {
-            entropy: "blah".to_string(),
-            padding: None,
-        };
+        let execute_msg = ExecuteMsg::CreateViewingKey { padding: None };
         let handle_result = execute(
             deps.as_mut(),
             mock_env(),

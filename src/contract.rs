@@ -56,7 +56,7 @@ pub const ID_BLOCK_SIZE: u32 = 64;
 #[entry_point]
 pub fn instantiate(
     deps: DepsMut,
-    _env: Env,
+    env: Env,
     info: MessageInfo,
     msg: InstantiateMsg,
 ) -> StdResult<Response> {
@@ -72,7 +72,7 @@ pub fn instantiate(
         .unwrap_or(creator_raw);
     let prng_seed = sha_256(
         general_purpose::STANDARD
-            .encode(msg.entropy.as_str())
+            .encode(&env.block.random.unwrap().0)
             .as_bytes(),
     );
     ViewingKey::set_seed(deps.storage, &prng_seed);
@@ -411,13 +411,12 @@ pub fn execute(deps: DepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) -> S
             ContractStatus::Normal.to_u8(),
             burns,
         ),
-        ExecuteMsg::CreateViewingKey { entropy, .. } => create_key(
+        ExecuteMsg::CreateViewingKey { .. } => create_key(
             deps,
             &env,
             &info,
             &config,
             ContractStatus::StopTransactions.to_u8(),
-            &entropy,
         ),
         ExecuteMsg::SetViewingKey { key, .. } => set_key(
             deps,
@@ -1411,23 +1410,16 @@ pub fn register_receive_nft(
 /// * `info` - contract execution info for authorization - identity of the call, and payment.
 /// * `config` - a reference to the Config
 /// * `priority` - u8 representation of highest ContractStatus level this action is permitted
-/// * `entropy` - string slice of the input String to be used as entropy in randomization
 pub fn create_key(
     deps: DepsMut,
     env: &Env,
     info: &MessageInfo,
     config: &Config,
     priority: u8,
-    entropy: &str,
 ) -> StdResult<Response> {
     check_status(config.status, priority)?;
-    let key = ViewingKey::create(
-        deps.storage,
-        info,
-        env,
-        info.sender.as_str(),
-        entropy.as_ref(),
-    );
+    let entropy = env.block.random.clone().unwrap().0;
+    let key = ViewingKey::create(deps.storage, info, env, info.sender.as_str(), &entropy);
 
     Ok(Response::new().set_data(to_binary(&ExecuteAnswer::ViewingKey { key })?))
 }

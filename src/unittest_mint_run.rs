@@ -22,7 +22,6 @@ mod tests {
             name: "sec721".to_string(),
             symbol: "S721".to_string(),
             admin: Some("admin".to_string()),
-            entropy: "We're going to need a bigger boat".to_string(),
             royalty_info: None,
             config: None,
             post_init_callback: None,

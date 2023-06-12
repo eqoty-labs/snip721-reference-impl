@@ -19,8 +19,6 @@ pub struct InstantiateMsg {
     pub symbol: String,
     /// optional admin address, env.message.sender if missing
     pub admin: Option<String>,
-    /// entropy used for prng seed
-    pub entropy: String,
     /// optional royalty information to use as default when RoyaltyInfo is not provided to a
     /// minting function
     pub royalty_info: Option<RoyaltyInfo>,
@@ -349,8 +347,6 @@ pub enum ExecuteMsg {
     },
     /// create a viewing key
     CreateViewingKey {
-        /// entropy String used in random key generation
-        entropy: String,
         /// optional message length padding
         padding: Option<String>,
     },
